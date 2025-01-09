@@ -3,23 +3,34 @@
 #include <SFML/Window/Event.hpp>
 #include "text.hpp"
 #include <SFML/Window/Keyboard.hpp>
+#include <cstddef>
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include "site.hpp"
+#include "utilites.hpp"
+#include <map>
+#include <string>
+
+
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "ImGui + SFML = <3");
+    std::map<std::string, bool> keyState {{"left", false}, {"right", false}};
+    sf::RenderWindow window(sf::VideoMode(1200, 1720), "ImGui + SFML = <3");
     window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
     textCreator newCreator;
     newSite site;
+    std::size_t maxSize = site.returnSize();
+    std::size_t cursorsIndex = 1;
     site.createSite();
     sf::Clock deltaClock;
     while (window.isOpen()) {
         sf::Event event;
+        
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(event);
-
+            userInput(event, keyState);
+            setIndex(keyState, cursorsIndex, maxSize);
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
@@ -29,7 +40,7 @@ int main() {
         ImGui::SFML::Update(window, deltaClock.restart());
 
         window.clear();
-        site.renderSite(window);
+        site.renderSite(window, cursorsIndex);
         ImGui::SFML::Render(window);
         window.display();
     }

@@ -4,12 +4,13 @@
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Window.hpp>
+#include <cstddef>
 #include <vector>
 #include "SFML/Graphics.hpp"
 #include <memory>
 
 class Shape
-
+ 
 {
   public:
     sf::RectangleShape rectangle;
@@ -25,6 +26,7 @@ class siteRect
   public:
   int xPos = 0;
   int yPos = 0;
+  bool isActive = false;
   std::shared_ptr<Shape> shape;
 };
 
@@ -36,8 +38,11 @@ class newSite
   std::vector<std::vector<std::shared_ptr<siteRect>>> lines;
   newSite();
   void createSite();
-  void renderSite(sf::RenderWindow& window);
+  void renderSite(sf::RenderWindow& window, size_t index);
+  std::size_t returnSize();
 };
+
+
 
 
 

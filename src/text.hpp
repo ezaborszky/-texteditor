@@ -1,15 +1,16 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <string>
+#include <vector>
+#include <memory>
 
 class textChunk
 
 {
-friend class textCreator;
-textChunk();
 public:
-sf::Font Font;
+sf::Text text;
 std::string content;
 int textSize;
 };
@@ -17,5 +18,8 @@ int textSize;
 
 class textCreator {
 public:
-void create();
+std::vector<std::shared_ptr<sf::Text>> textList;
+void setContent(std::string content, std::size_t index);
+
+
 };
