@@ -51,7 +51,7 @@ void newSite::renderSite(sf::RenderWindow& window, size_t index)
   for(std::size_t i = 0; i < lineVec.size(); ++i)
   {
        
-       lineVec[i]->isActive = (index == i);
+     //  lineVec[i]->isActive = (index == i);
        if(lineVec[i]->isActive) 
        {lineVec[i]->shape->rectangle.setFillColor(sf::Color(200,200,200));}
        else{lineVec[i]->shape->rectangle.setFillColor(sf::Color(20,20,20));};
@@ -61,7 +61,7 @@ void newSite::renderSite(sf::RenderWindow& window, size_t index)
 
   for(std::size_t x = 0; x < textVec.size(); ++x)
   {
-   textVec[x]->isActive = (index == x);
+   
    if(textVec[x]->isActive)
    {
      textVec[x]->text.setFillColor(sf::Color::Black);
@@ -86,7 +86,7 @@ std::size_t newSite::returnSize()
 
 newSite::newSite(){};
 
- void newSite::selectArea(sf::Event event, sf::RenderWindow& window)
+void newSite::selectArea(sf::Event event, sf::RenderWindow& window, size_t& index)
 {
   if(event.type == sf::Event::MouseButtonPressed)
   {
@@ -97,6 +97,21 @@ newSite::newSite(){};
 
   if(event.type == sf::Event::MouseButtonReleased)
   {
+  bool firstFound = false;
+  sf::Vector2f selectionPos = selectAreaRect->rectangle.getPosition();
+  sf::Vector2 selectionSize = selectAreaRect-> rectangle.getSize();
+  for(size_t i = 0; i < lineVec.size(); ++i)
+  {
+    sf::Vector2f rectPos = lineVec[i]->shape->rectangle.getPosition();
+    sf::Vector2 rectSize = lineVec[i]->shape->rectangle.getSize();
+   
+    if(selectionPos.y < rectPos.y && selectionPos.x < rectPos.x && (selectionPos.y + selectionSize.y) > (rectPos.y + rectSize.y) && (selectionPos.x + selectionSize.x) > (rectPos.x + rectSize.x))
+        {if(!firstFound){index = i; firstFound = true; }
+          lineVec[i]->isActive = true;
+        } else {lineVec[i]->isActive = false;}
+  }
+
+
   selectAreaRect = nullptr; 
   }
 

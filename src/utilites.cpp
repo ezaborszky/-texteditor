@@ -1,10 +1,13 @@
 #include "utilites.hpp"
+#include "site.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 #include <map>
+#include <memory>
+#include <vector>
 
 
 bool isAlphanumericKey(sf::Keyboard::Key key) {
@@ -33,12 +36,20 @@ if(event.type == sf::Event::KeyReleased)
 
 }
 
-void setIndex(std::map<std::string, bool> states, std::size_t& index, std::size_t maxSize)
+void setIndex(std::map<std::string, bool> states, std::size_t& index, std::size_t maxSize, std::vector<std::shared_ptr <siteRect>> &textVec)
 {
-  if(states["left"] && (index > 0)) {std::cout << "LEFT" << std::endl; index--; return;}
-  if(states["right"] && (index + 1 < maxSize)) {std::cout << maxSize << std::endl; index++; return;}
-  if(states["up"] && (index >= 32)) {std::cout << "UP" << std::endl; index -= 32 ; return;}
-  if(states["down"] && (index + 33 < maxSize)) {std::cout << "DOWN" << std::endl; index += 32; return;}
+  if(states["left"] && (index > 0)) {std::cout << "LEFT" << std::endl; index--; }
+  if(states["right"] && (index + 1 < maxSize)) {std::cout << maxSize << std::endl; index++;}
+  if(states["up"] && (index >= 32)) {std::cout << "UP" << std::endl; index -= 32 ; }
+  if(states["down"] && (index + 33 < maxSize)) {std::cout << "DOWN" << std::endl; index += 32; }
+
+  std::cout << index << std::endl;
+    for(size_t i = 0; i < textVec.size();  ++i)
+    {
+      textVec[i]->isActive = (i == index);
+    }
+
+ 
 
 }
 

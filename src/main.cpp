@@ -31,9 +31,11 @@ int main() {
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(event);
             userInput(event, keyState);
-            setIndex(keyState, cursorsIndex, maxSize);
+            if(event.type == sf::Event::KeyPressed)
+            { setIndex(keyState, cursorsIndex, maxSize, site.lineVec);}
+
             alphaNumInput(event, inputChar, site.textVec, cursorsIndex);
-            site.selectArea(event, window);
+            site.selectArea(event, window, cursorsIndex);
             if (event.type == sf::Event::Closed) {
                 window.close();
             }

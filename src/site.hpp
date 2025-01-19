@@ -63,7 +63,7 @@ class newSite
   void renderSite(sf::RenderWindow& window, size_t index);
   std::size_t returnSize();
   void mouseClick(sf::Event, sf::RenderWindow& window, size_t& index);
-  void selectArea(sf::Event, sf::RenderWindow& window);
+  void selectArea(sf::Event, sf::RenderWindow& window, size_t& index);
 };
 
 
